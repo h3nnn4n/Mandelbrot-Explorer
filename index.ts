@@ -1,48 +1,35 @@
 import { getCanvas, bindEvents } from "./js/ui";
-
-let Rust: any;
-let image_data: any;
+import { MandelbrotManager } from "./js/mandelbrot_manager";
 
 const width = 800;
 const height = 600;
 
-let config: any;
+let Rust: any;
+let rust_image_data: any;
+let mandelbrot_manager: any;
 
 const init = () => {
-  const canvas = getCanvas();
-
-  if (canvas != null) {
-    console.log('initial canvas size', canvas.width, canvas.height);
-  }
-
-  Rust.init();
-  Rust.init_mandelbrot();
-
-  console.log(Rust.a_plus_b(1, 2));
-
   bindEvents(render_mandelbrot);
 
-  config = Rust.build_config(width, height);
-  image_data = Rust.init_image_data(width, height);
-  image_data.reset();
+  rust_image_data = Rust.init_image_data(width, height);
+  rust_image_data.reset();
+
+  mandelbrot_manager = new MandelbrotManager(Rust, width, height);
 
   render_mandelbrot();
-
   draw_to_canvas();
 }
 
 function draw_to_canvas() {
-  image_data.normalize_image();
-  //image_data.invert_colors();
-  image_data.gamma_correction(1.7);
+  rust_image_data.normalize_image();
+  rust_image_data.gamma_correction(1.7);
 
-  const image_pixels = image_data.as_u8();
+  const image_pixels = rust_image_data.as_u8();
 
   const canvas = getCanvas();
   const canvas_context = canvas.getContext('2d');
 
   if (canvas_context != null) {
-    console.log('intialized canvas size', canvas.width, canvas.height);
     const clamped_array = new Uint8ClampedArray(image_pixels);
     const image_data = new ImageData(clamped_array, width, height);
 
@@ -51,8 +38,9 @@ function draw_to_canvas() {
 }
 
 function render_mandelbrot() {
-  console.log('render');
-  Rust.render_mandelbrot(config, image_data);
+  mandelbrot_manager.update_config();
+
+  Rust.render_mandelbrot(mandelbrot_manager.config, rust_image_data);
 }
 
 export const load = (): void => {

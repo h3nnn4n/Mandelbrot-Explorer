@@ -33,16 +33,6 @@ pub fn init_image_data(width: u32, height: u32) -> Image {
 }
 
 #[wasm_bindgen]
-pub fn a_plus_b(a: i32, b: i32) -> i32 {
-    a + b
-}
-
-#[wasm_bindgen]
-pub fn init_mandelbrot() {
-    utils::console_log("init_mandelbrot");
-}
-
-#[wasm_bindgen]
 pub fn build_config(width: u32, height: u32) -> config::Config {
     utils::console_log("building config");
 
@@ -56,7 +46,7 @@ pub fn build_config(width: u32, height: u32) -> config::Config {
 
 #[wasm_bindgen]
 pub fn render_mandelbrot(config: config::Config, image_data: &mut Image) {
-    utils::console_log("render_mandelbrot");
+    utils::console_log("rendering mandelbrot set");
 
     for x in 0..800 {
         for y in 0..600 {
@@ -69,10 +59,5 @@ pub fn render_mandelbrot(config: config::Config, image_data: &mut Image) {
         }
     }
 
-    utils::console_log("render_mandelbrot finished");
-}
-
-#[wasm_bindgen]
-pub fn init() {
-    utils::console_log("init");
+    utils::console_log("render finished");
 }

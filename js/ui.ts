@@ -1,6 +1,5 @@
 import * as $ from 'jquery';
 import * as AColorPicker from 'a-color-picker';
-//const JSColorPicker = require('jscolor-picker');
 
 function bindEvents(render_callback: any): void {
     $('#render').click(render_callback);
