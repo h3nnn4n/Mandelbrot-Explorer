@@ -17,23 +17,20 @@ pub fn get_c(x: u32, y: u32, config: Config) -> Complex<f64> {
 pub fn mandelbrot_point(c: Complex<f64>, escape_radius: f64, iterations: u32) -> u32 {
     let mut z = c.clone();
     let mut z_old = z.clone();
-    let mut period = 0;
 
     for i in 0..iterations {
-        period += 1;
         z = z.powf(2.0) + c;
 
-        if z == z_old {
+        if i % 2 == 0 {
+            z_old = z_old.powf(2.0) + c;
+        }
+
+        if z == z_old && i > 0 {
             return iterations;
         }
 
         if z.norm() > escape_radius {
             return i;
-        }
-
-        if period > 20 {
-            period = 0;
-            z_old = z;
         }
     }
 
