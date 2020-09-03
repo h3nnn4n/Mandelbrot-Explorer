@@ -24,6 +24,11 @@ cfg_if! {
 
 #[wasm_bindgen]
 pub fn init_image_data(width: u32, height: u32) -> Image {
+    let canvas = utils::get_canvas();
+
+    canvas.set_width(width.into());
+    canvas.set_height(height.into());
+
     Image::init(width.into(), height.into())
 }
 
@@ -42,17 +47,15 @@ pub fn render_mandelbrot(image_data: &mut Image) {
     utils::console_log("render_mandelbrot");
     let config = config::Config::new();
 
-    for y in 0..config.height {
-        for x in 0..config.width {
+    for x in 0..800 {
+        for y in 0..600 {
             let c = mandelbrot::get_c(x, y, config);
-            let v = mandelbrot::mandelbrot_point(c, config.escape_radius, config.iterations) as u8;
+            let v = mandelbrot::mandelbrot_point(c,
+                                                 config.escape_radius,
+                                                 config.iterations) as u8;
 
             image_data.put_pixel(x as u64, y as u64, [v, v, v]);
         }
-
-        //if (y + 1) % 25 == 0 {
-            //println!("{:4} of {}", (y + 1), config.height);
-        //}
     }
 
     utils::console_log("render_mandelbrot finished");
@@ -61,8 +64,4 @@ pub fn render_mandelbrot(image_data: &mut Image) {
 #[wasm_bindgen]
 pub fn init() {
     utils::console_log("init");
-    let canvas = utils::get_canvas();
-
-    canvas.set_width(600);
-    canvas.set_height(600);
 }

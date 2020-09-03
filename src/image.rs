@@ -100,8 +100,8 @@ impl Image {
     pub fn as_u8(&self) -> Vec<u8> {
         let mut data = Vec::new();
 
-        for x in 0..self.width {
-            for y in 0..self.height {
+        for y in 0..self.height {
+            for x in 0..self.width {
                 let index = ((y * self.width + x) * 4) as usize;
 
                 for i in 0..4 {
