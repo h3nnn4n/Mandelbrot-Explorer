@@ -1,5 +1,6 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require('path');
+const webpack = require('webpack');
 
 
 module.exports = {
@@ -13,13 +14,20 @@ module.exports = {
   target: 'web',
   mode: "development",
   plugins: [
-    new CopyWebpackPlugin(['index.html'])
+    new CopyWebpackPlugin(['index.html']),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery'",
+      "window.$": "jquery"
+    })
   ],
   resolve: {
     extensions: [".js", ".ts", '.wasm']
   },
   module: {
-    rules: [{
+    rules: [
+      {
         include: [
           path.resolve(__dirname, "js")
         ],
@@ -43,6 +51,30 @@ module.exports = {
       {
         test: /\.wasm$/,
         type: "webassembly/experimental"
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: function () {
+                return [
+                  require('autoprefixer')
+                ];
+              }
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
       }
     ]
   }

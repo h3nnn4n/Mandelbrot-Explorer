@@ -1,3 +1,6 @@
+import './scss/app.scss';
+import 'bootstrap';
+
 import { bindEvents } from "./js/ui";
 import { MandelbrotManager } from "./js/mandelbrot_manager";
 
@@ -20,7 +23,7 @@ const init = () => {
 }
 
 export const load = (): void => {
-  (() => import( /* webpackChunkName: "strange_attractor_explorer" */ './pkg/mandelbrot_explorer.js').then(module => {
+  (() => import( /* webpackChunkName: "mandelbrot_explorer" */ './pkg/mandelbrot_explorer.js').then(module => {
     Rust = module;
     init();
   }))();
