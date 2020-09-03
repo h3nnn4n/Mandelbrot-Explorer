@@ -5,6 +5,9 @@ class MandelbrotManager {
   imag_value = 0;
   zoom = 2;
 
+  escape_radius = 2.0;
+  iterations = 256;
+
   width: number;
   height: number;
 
@@ -27,9 +30,13 @@ class MandelbrotManager {
     this.real_value = readValue('real_value');
     this.imag_value = readValue('imag_value');
     this.zoom = readValue('zoom_level');
+    this.escape_radius = readValue('escape_radius_value');
+    this.iterations = readValue('iterations_value');
 
     this.config.set_coordinates(this.real_value, this.imag_value);
     this.config.set_zoom(this.zoom);
+    this.config.set_escape_radius(this.escape_radius);
+    this.config.set_iterations(this.iterations);
   }
 
   render_mandelbrot(): void {

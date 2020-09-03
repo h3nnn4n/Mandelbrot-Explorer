@@ -38,6 +38,14 @@ impl Config {
         self.height = height;
     }
 
+    pub fn set_escape_radius(&mut self, radius: f64) {
+        self.escape_radius = radius;
+    }
+
+    pub fn set_iterations(&mut self, iterations: u32) {
+        self.iterations = iterations;
+    }
+
     pub fn set_zoom(&mut self, zoom: f64) {
         self.zoom = zoom;
     }

@@ -24,29 +24,39 @@
   </nav>
 
    <div class="container">
-    <div class="">
-      <div class=" input-group">
+    <div>
+      <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">imaginary part = </span>
         </div>
 
-        <input class="form-control" type="number" name="imag_value" id="imag_value" value="0" step="0.01">
+        <input class="form-control" type="number" name="imag_value" id="imag_value" value="0.126433" step="0.01">
 
         <div class="input-group-prepend">
           <span class="input-group-text">real part = </span>
         </div>
 
-        <input class="form-control" type="number" name="real_value" id="real_value" value="-0.5" step="0.01">
+        <input class="form-control" type="number" name="real_value" id="real_value" value="-0.743030" step="0.01">
 
         <div class="input-group-prepend">
           <span class="input-group-text">zoom = </span>
         </div>
 
-        <input class="form-control" type="number" name="zoom_level" id="zoom_level" value="2.0" step="0.01">
+        <input class="form-control" type="number" name="zoom_level" id="zoom_level" value="0.0165" step="0.01">
+      </div>
 
-        <div class="input-group-append">
-          <button class="btn btn-primary input-group-text" type="button" id="render">Render</button>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">iterations = </span>
         </div>
+
+        <input class="form-control" type="number" name="iterations_value" id="iterations_value" value="256" step="64">
+
+        <div class="input-group-prepend">
+          <span class="input-group-text">escape radius = </span>
+        </div>
+
+        <input class="form-control" type="number" name="escape radius" id="escape_radius_value" value="2.0" step="0.1">
       </div>
     </div>
   </div>
