@@ -18,9 +18,7 @@ class MandelbrotManager {
     this.width = width;
 
     this.config = this.rust.build_config(width, height);
-
     this.image = this.rust.init_image_data(width, height);
-    this.image.reset();
 
     this.update_config();
   }
@@ -30,13 +28,13 @@ class MandelbrotManager {
     this.imag_value = readValue('imag_value');
     this.zoom = readValue('zoom_level');
 
-    this.config.xcenter = this.real_value;
-    this.config.ycenter = this.imag_value;
-    this.config.zoom = this.zoom;
+    this.config.set_coordinates(this.real_value, this.imag_value);
+    this.config.set_zoom(this.zoom);
   }
 
   render_mandelbrot(): void {
     this.update_config();
+    this.image.reset();
     this.rust.render_mandelbrot(this.config, this.image);
   }
 

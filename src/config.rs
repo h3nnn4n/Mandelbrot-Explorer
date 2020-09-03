@@ -32,4 +32,18 @@ impl Config {
             iterations: 256,
         }
     }
+
+    pub fn set_size(&mut self, width: u32, height: u32) {
+        self.width = width;
+        self.height = height;
+    }
+
+    pub fn set_zoom(&mut self, zoom: f64) {
+        self.zoom = zoom;
+    }
+
+    pub fn set_coordinates(&mut self, real_value: f64, imag_value: f64) {
+        self.xcenter = real_value;
+        self.ycenter = imag_value;
+    }
 }
