@@ -1,21 +1,21 @@
 import { bindEvents, resetProgressBar } from './js/user_interface';
-import { CliffordManager } from './js/clifford_manager';
+import { MandelbrotManager } from './js/mandelbrot_manager';
 
-var Rust: any;
-var clifford_manager: CliffordManager;
+let Rust: any;
+let mandelbrot_manager: MandelbrotManager;
 
 const init = () => {
   Rust.init();
-  clifford_manager = new CliffordManager(Rust);
+  mandelbrot_manager = new MandelbrotManager(Rust);
 
-  bindEvents(render_attractor, find_random_attractor);
+  bindEvents(render_mandelbrot, find_random_attractor);
 
-  render_attractor();
+  render_mandelbrot();
 }
 
-function render_attractor() {
-  clifford_manager.update_config();
-  clifford_manager.start();
+function render_mandelbrot() {
+  mandelbrot_manager.update_config();
+  mandelbrot_manager.start();
 
   resetProgressBar();
 
@@ -23,25 +23,25 @@ function render_attractor() {
 }
 
 function find_random_attractor() {
-  let lyap = Rust.init_lyapunov();
-  lyap.find_chaotic_params();
+  //let lyap = Rust.init_lyapunov();
+  //lyap.find_chaotic_params();
 
-  return lyap;
+  return [];
 }
 
 function render_loop() {
-  if (clifford_manager.finished_running() && !clifford_manager.state_control.did_state_change()) {
+  if (mandelbrot_manager.finished_running() && !mandelbrot_manager.state_control.did_state_change()) {
     return;
   }
 
-  clifford_manager.interpolate_and_render_step()
+  mandelbrot_manager.interpolate_and_render_step()
 
   setTimeout(() => {
     render_loop();
   }, 0);
 }
 
-export const load = () => {
+export const load = (): void => {
   (() => import( /* webpackChunkName: "strange_attractor_explorer" */ './pkg/strange_attractor_explorer.js').then(module => {
     Rust = module;
     init();

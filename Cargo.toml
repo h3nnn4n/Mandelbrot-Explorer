@@ -12,6 +12,7 @@ wasm-bindgen = "0.2.37"
 cfg-if = "0.1.7"
 console_error_panic_hook = { version = "0.1.6", optional = true }
 wee_alloc = { version = "0.4.3", optional = true }
+num = "0.3.0"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

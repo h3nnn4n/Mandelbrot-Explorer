@@ -1,20 +1,20 @@
 extern crate cfg_if;
+extern crate num;
 extern crate rand;
 extern crate wasm_bindgen;
 extern crate web_sys;
 
 mod clifford;
 mod image;
-mod lyapunov;
-mod lyapunov_line;
+mod config;
 mod utils;
+
+mod mandelbrot;
 
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 
-use clifford::Clifford;
 use image::Image;
-use lyapunov_line::LyapunovLine;
 
 cfg_if! {
     if #[cfg(feature = "wee_alloc")] {
@@ -30,13 +30,13 @@ pub fn init_image_data(width: u32, height: u32) -> Image {
 }
 
 #[wasm_bindgen]
-pub fn init_attractor() -> Clifford {
-    Clifford::new()
+pub fn init_attractor() {
+    //Clifford::new()
 }
 
 #[wasm_bindgen]
-pub fn init_lyapunov() -> LyapunovLine {
-    LyapunovLine::new()
+pub fn init_lyapunov()  {
+    //LyapunovLine::new()
 }
 
 #[wasm_bindgen]
