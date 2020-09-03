@@ -45,9 +45,31 @@ class MandelbrotManager {
     this.rust.render_mandelbrot(this.config, this.image);
   }
 
+  render_mandelbrot_line_by_line(): void {
+    console.log('render_mandelbrot_line_by_line');
+    this.update_config();
+    this.image.reset();
+    this.render_mandelbrot_line(0);
+  }
+
+  render_mandelbrot_line(line_number: number): void {
+    if (line_number > this.height) return;
+
+    const step_size = 7;
+
+    for (let i = 0; i < step_size; i++) {
+      this.rust.render_mandelbrot_line(line_number + i, this.config, this.image);
+    }
+
+    this.draw_to_canvas();
+
+    setTimeout(() => this.render_mandelbrot_line(line_number + step_size), 0);
+  }
+
   draw_to_canvas(): void {
-    this.image.normalize_image();
-    this.image.gamma_correction(1.7);
+    // TODO: make this work again
+    //this.image.normalize_image();
+    //this.image.gamma_correction(1.7);
 
     const image_pixels = this.image.as_u8();
 

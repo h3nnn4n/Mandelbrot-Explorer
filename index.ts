@@ -8,8 +8,7 @@ let Rust: any;
 let mandelbrot_manager: any;
 
 const render_mandelbrot = (): void => {
-  mandelbrot_manager.render_mandelbrot();
-  mandelbrot_manager.draw_to_canvas();
+  mandelbrot_manager.render_mandelbrot_line_by_line();
 }
 
 const init = () => {

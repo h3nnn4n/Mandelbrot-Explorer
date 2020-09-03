@@ -61,3 +61,17 @@ pub fn render_mandelbrot(config: &config::Config, image_data: &mut Image) {
 
     utils::console_log("render finished");
 }
+
+#[wasm_bindgen]
+pub fn render_mandelbrot_line(line_number: u32, config: &config::Config, image_data: &mut Image) {
+    let y = line_number;
+
+    for x in 0..config.width {
+        let c = mandelbrot::get_c(x, y, *config);
+        let v = mandelbrot::mandelbrot_point(c,
+                                             config.escape_radius,
+                                             config.iterations) as u8;
+
+        image_data.put_pixel(x as u64, y as u64, [v, v, v]);
+    }
+}
