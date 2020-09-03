@@ -6,6 +6,8 @@ let image_data: any;
 const width = 800;
 const height = 600;
 
+let config: any;
+
 const init = () => {
   const canvas = getCanvas();
 
@@ -20,6 +22,7 @@ const init = () => {
 
   bindEvents(render_mandelbrot);
 
+  config = Rust.build_config(width, height);
   image_data = Rust.init_image_data(width, height);
   image_data.reset();
 
@@ -49,7 +52,7 @@ function draw_to_canvas() {
 
 function render_mandelbrot() {
   console.log('render');
-  Rust.render_mandelbrot(image_data);
+  Rust.render_mandelbrot(config, image_data);
 }
 
 export const load = (): void => {

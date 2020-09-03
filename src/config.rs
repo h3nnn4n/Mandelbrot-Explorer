@@ -1,3 +1,6 @@
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
 #[derive(Copy, Clone)]
 pub struct Config {
     pub xcenter: f64,
@@ -12,6 +15,7 @@ pub struct Config {
     pub iterations: u32,
 }
 
+#[wasm_bindgen]
 impl Config {
     pub fn new() -> Config {
         Config {

@@ -43,9 +43,20 @@ pub fn init_mandelbrot() {
 }
 
 #[wasm_bindgen]
-pub fn render_mandelbrot(image_data: &mut Image) {
+pub fn build_config(width: u32, height: u32) -> config::Config {
+    utils::console_log("building config");
+
+    let mut config = config::Config::new();
+
+    config.width = width;
+    config.height = height;
+
+    config
+}
+
+#[wasm_bindgen]
+pub fn render_mandelbrot(config: config::Config, image_data: &mut Image) {
     utils::console_log("render_mandelbrot");
-    let config = config::Config::new();
 
     for x in 0..800 {
         for y in 0..600 {
