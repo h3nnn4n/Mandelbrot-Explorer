@@ -1,4 +1,5 @@
 import { readValue, getCanvas } from "./ui";
+import { State } from "./state";
 
 class MandelbrotManager {
   real_value = -0.5;
@@ -15,6 +16,8 @@ class MandelbrotManager {
   config: any;
   image: any;
 
+  state: State;
+
   constructor(rust: any, width: number, height: number) {
     this.rust = rust;
     this.height = height;
@@ -22,6 +25,8 @@ class MandelbrotManager {
 
     this.config = this.rust.build_config(width, height);
     this.image = this.rust.init_image_data(width, height);
+
+    this.state = new State();
 
     this.update_config();
   }
@@ -47,13 +52,21 @@ class MandelbrotManager {
 
   render_mandelbrot_line_by_line(): void {
     console.log('render_mandelbrot_line_by_line');
+    this.state.set_rendering();
     this.update_config();
     this.image.reset();
-    this.render_mandelbrot_line(0);
+    this.render_mandelbrot_line(0, this.state.render_id);
   }
 
-  render_mandelbrot_line(line_number: number): void {
-    if (line_number > this.height) return;
+  render_mandelbrot_line(line_number: number, render_id: number): void {
+    if (line_number > this.height) {
+      this.state.set_finished();
+      return;
+    }
+
+    if (render_id != this.state.render_id) {
+      return;
+    }
 
     const step_size = 7;
 
@@ -63,7 +76,9 @@ class MandelbrotManager {
 
     this.draw_to_canvas();
 
-    setTimeout(() => this.render_mandelbrot_line(line_number + step_size), 0);
+    setTimeout(() => {
+      this.render_mandelbrot_line(line_number + step_size, render_id)
+    }, 0);
   }
 
   draw_to_canvas(): void {
