@@ -1,86 +1,87 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <title>Rust powered mandelbrot renderer</title>
-</head>
+  <head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+                                                                                          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Rust powered mandelbrot renderer</title>
+  </head>
 
-<body>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="./bootstrap.js"></script>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="./bootstrap.js"></script>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light ml-auto text-center">
-    <div class="mx-auto order-0">
-      <span class="navbar-brand mx-auto" href="#">
-        Mandelbrot Explorer
-      </span>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ml-auto text-center">
+      <div class="mx-auto order-0">
+        <span class="navbar-brand mx-auto" href="#">
+          Mandelbrot Explorer
+        </span>
 
-      <span class="navbar-text">
-        by h3nnn4n
-      </span>
-    </div>
-  </nav>
-
-   <div class="container">
-    <div>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">imaginary part = </span>
-        </div>
-
-        <input class="form-control" type="number" name="imag_value" id="imag_value" value="0.126433" step="0.01">
-
-        <div class="input-group-prepend">
-          <span class="input-group-text">real part = </span>
-        </div>
-
-        <input class="form-control" type="number" name="real_value" id="real_value" value="-0.743030" step="0.01">
-
-        <div class="input-group-prepend">
-          <span class="input-group-text">zoom = </span>
-        </div>
-
-        <input class="form-control" type="number" name="zoom_level" id="zoom_level" value="0.0165" step="0.01">
+        <span class="navbar-text">
+          by h3nnn4n
+        </span>
       </div>
+    </nav>
 
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">iterations = </span>
+
+    <div class="container">
+      <div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">imaginary part = </span>
+          </div>
+
+          <input class="form-control" type="number" name="imag_value" id="imag_value" value="0.126433" step="0.01">
+
+          <div class="input-group-prepend">
+            <span class="input-group-text">real part = </span>
+          </div>
+
+          <input class="form-control" type="number" name="real_value" id="real_value" value="-0.743030" step="0.01">
+
+          <div class="input-group-prepend">
+            <span class="input-group-text">zoom = </span>
+          </div>
+
+          <input class="form-control" type="number" name="zoom_level" id="zoom_level" value="0.0165" step="0.01">
         </div>
 
-        <input class="form-control" type="number" name="iterations_value" id="iterations_value" value="256" step="64">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">iterations = </span>
+          </div>
 
-        <div class="input-group-prepend">
-          <span class="input-group-text">escape radius = </span>
+          <input class="form-control" type="number" name="iterations_value" id="iterations_value" value="256" step="64">
+
+          <div class="input-group-prepend">
+            <span class="input-group-text">escape radius = </span>
+          </div>
+
+          <input class="form-control" type="number" name="escape radius" id="escape_radius_value" value="2.0" step="0.1">
         </div>
-
-        <input class="form-control" type="number" name="escape radius" id="escape_radius_value" value="2.0" step="0.1">
-      </div>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row text-center">
-      <div class="col">
-        <canvas id="canvas"></canvas>
       </div>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col text-center">
-        <a class="btn btn-secondary" href="#" role="button" id='download'>Download</a>
-        <a class="btn btn-primary" href="#" type="button" id="render">Render</a>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col">
+          <canvas id="canvas"></canvas>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
-</body>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <a class="btn btn-secondary" href="#" role="button" id='download'>Download</a>
+          <a class="btn btn-primary" href="#" type="button" id="render">Render</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+  </body>
 
 </html>
