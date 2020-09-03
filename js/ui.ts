@@ -48,6 +48,7 @@ function setPreset(event: any): void {
   setValue('real_value', data.real);
   setValue('imag_value', data.imag);
   setValue('zoom_level', data.zoom);
+  setValue('iterations_value', data.iterations);
 }
 
 export {
