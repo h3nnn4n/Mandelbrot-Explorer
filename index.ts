@@ -1,48 +1,49 @@
-import { bindEvents, resetProgressBar } from './js/user_interface';
-import { MandelbrotManager } from './js/mandelbrot_manager';
-
 let Rust: any;
-let mandelbrot_manager: MandelbrotManager;
+let image_data: any;
 
 const init = () => {
   Rust.init();
-  mandelbrot_manager = new MandelbrotManager(Rust);
+  console.log(Rust.a_plus_b(1, 2));
+  Rust.init_mandelbrot();
 
-  bindEvents(render_mandelbrot, find_random_attractor);
+  image_data = Rust.init_image_data(600, 600);
+  image_data.reset();
 
   render_mandelbrot();
+  draw_to_canvas();
+}
+
+function draw_to_canvas() {
+  image_data.normalize_image();
+  image_data.invert_colors();
+  image_data.gamma_correction(2.7);
+
+  const image_pixels = image_data.as_u8();
+
+  const canvas = getCanvas();
+  const canvas_context = canvas.getContext('2d');
+
+  if (canvas_context != null) {
+    const clamped_array = new Uint8ClampedArray(image_pixels);
+    const image_data = new ImageData(clamped_array, 600, 600);
+
+    canvas_context.putImageData(image_data, 0, 0);
+  }
+}
+
+function getCanvas() {
+  const j_canvas = $('#canvas');
+  const canvas = <HTMLCanvasElement>j_canvas[0];
+  return canvas;
 }
 
 function render_mandelbrot() {
-  mandelbrot_manager.update_config();
-  mandelbrot_manager.start();
-
-  resetProgressBar();
-
-  render_loop();
-}
-
-function find_random_attractor() {
-  //let lyap = Rust.init_lyapunov();
-  //lyap.find_chaotic_params();
-
-  return [];
-}
-
-function render_loop() {
-  if (mandelbrot_manager.finished_running() && !mandelbrot_manager.state_control.did_state_change()) {
-    return;
-  }
-
-  mandelbrot_manager.interpolate_and_render_step()
-
-  setTimeout(() => {
-    render_loop();
-  }, 0);
+  console.log('render');
+  Rust.render_mandelbrot(image_data);
 }
 
 export const load = (): void => {
-  (() => import( /* webpackChunkName: "strange_attractor_explorer" */ './pkg/strange_attractor_explorer.js').then(module => {
+  (() => import( /* webpackChunkName: "strange_attractor_explorer" */ './pkg/mandelbrot_explorer.js').then(module => {
     Rust = module;
     init();
   }))();

@@ -16,16 +16,16 @@ impl Config {
     pub fn new() -> Config {
         Config {
             // Eventually recieve this as parameters
-            xcenter: -0.74364085,
-            ycenter: 0.13182733,
+            xcenter: -1.0,
+            ycenter: 0.,
 
-            zoom: 0.00012068 / 8.0,
+            zoom: 2.0,
 
             width: 800,
             height: 600,
 
             escape_radius: 2.0,
-            iterations: 1024,
+            iterations: 256,
         }
     }
 }

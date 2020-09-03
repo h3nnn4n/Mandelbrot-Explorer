@@ -2,7 +2,6 @@ extern crate num;
 use config::Config;
 use num::complex::Complex;
 
-
 pub fn get_c(x: u32, y: u32, config: Config) -> Complex<f64> {
     let minx = config.xcenter + config.zoom;
     let maxx = config.xcenter - config.zoom;
