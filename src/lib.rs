@@ -45,12 +45,12 @@ pub fn build_config(width: u32, height: u32) -> config::Config {
 }
 
 #[wasm_bindgen]
-pub fn render_mandelbrot(config: config::Config, image_data: &mut Image) {
+pub fn render_mandelbrot(config: &config::Config, image_data: &mut Image) {
     utils::console_log("rendering mandelbrot set");
 
     for x in 0..800 {
         for y in 0..600 {
-            let c = mandelbrot::get_c(x, y, config);
+            let c = mandelbrot::get_c(x, y, *config);
             let v = mandelbrot::mandelbrot_point(c,
                                                  config.escape_radius,
                                                  config.iterations) as u8;
