@@ -1,7 +1,7 @@
 import './scss/app.scss';
 import 'bootstrap';
 
-import { bindEvents } from "./js/ui";
+import { bindEvents, setPreset } from "./js/ui";
 import { MandelbrotManager } from "./js/mandelbrot_manager";
 
 const width = 800;
@@ -18,6 +18,8 @@ const init = () => {
   mandelbrot_manager = new MandelbrotManager(Rust, width, height);
 
   bindEvents(render_mandelbrot);
+
+  setPreset('fullset');
 
   render_mandelbrot();
 }

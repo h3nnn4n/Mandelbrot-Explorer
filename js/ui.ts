@@ -6,7 +6,7 @@ import { getPreset } from "./presets";
 function bindEvents(render_callback: any): void {
     $('#render').click(render_callback);
     $('#download').click(downloadCanvas);
-    $('[data-value]').click(setPreset);
+    $('[data-value]').click(handlePresetEvent);
 }
 
 function downloadCanvas() {
@@ -39,9 +39,14 @@ function readColor(name: string): number[] {
     return parsed;
 }
 
-function setPreset(event: any): void {
-  const preset_key = event.target.dataset.value;
-  const data = getPreset(preset_key);
+function handlePresetEvent(event: any): void {
+  const preset_name = event.target.dataset.value;
+
+  setPreset(preset_name);
+}
+
+function setPreset(preset_name: string): void {
+  const data = getPreset(preset_name);
 
   if (data === undefined) return;
 
@@ -55,5 +60,6 @@ export {
   getCanvas,
   readValue,
   readColor,
-  bindEvents
+  bindEvents,
+  setPreset
 }
