@@ -1,17 +1,20 @@
 use wasm_bindgen::prelude::*;
+use point_data::PointData;
 
 #[wasm_bindgen]
 pub struct Image {
     data: Vec<u64>,
-    width: u64,
-    height: u64,
+    point_data: Vec<PointData>,
+    pub width: u32,
+    pub height: u32,
 }
 
 #[wasm_bindgen]
 impl Image {
-    pub fn init(width: u64, height: u64) -> Image {
+    pub fn init(width: u32, height: u32) -> Image {
         let mut image_data = Image {
             data: vec![],
+            point_data: vec![],
             width: width,
             height: height,
         };
@@ -125,10 +128,16 @@ impl Image {
             }
         }
     }
+
+    pub fn get_point(&self, x: u32, y: u32) -> PointData {
+        let index = (y * self.width + x) as usize;
+
+        return self.point_data[index];
+    }
 }
 
 impl Image {
-    pub fn put_pixel(&mut self, x: u64, y: u64, color: [u8; 3]) {
+    pub fn put_pixel(&mut self, x: u32, y: u32, color: [u8; 3]) {
         if x > self.width - 1 {
             return;
         }
@@ -137,14 +146,28 @@ impl Image {
             return;
         }
 
-        let index = ((y * self.width as u64 + x) * 4) as usize;
+        let index = ((y * self.width as u32 + x) * 4) as usize;
 
         for i in 0..3 {
             self.data[index + i] += color[i] as u64;
         }
     }
 
-    pub fn get_pixel(&self, x:  u64, y: u64) -> [u64; 4] {
+    pub fn put_point(&mut self, x: u32, y: u32, point_data: PointData) {
+        if x > self.width - 1 {
+            return;
+        }
+
+        if y > self.height - 1 {
+            return;
+        }
+
+        let index = (y * self.width as u32 + x) as usize;
+
+        self.point_data[index] = point_data;
+    }
+
+    pub fn get_pixel(&self, x:  u32, y: u32) -> [u64; 4] {
         let index = ((y * self.width + x) * 4) as usize;
         let mut pixel: [u64; 4] = [0, 0, 0, 0];
 
@@ -157,9 +180,12 @@ impl Image {
 
     fn init_image(&mut self) {
         self.data.clear();
+        self.point_data.clear();
 
         for _ in 0..self.width {
             for _ in 0..self.height {
+                self.point_data.push(PointData::new());
+
                 self.data.push(0);
                 self.data.push(0);
                 self.data.push(0);

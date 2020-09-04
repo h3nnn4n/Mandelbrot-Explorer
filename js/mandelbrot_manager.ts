@@ -1,6 +1,8 @@
 import { readValue, getCanvas } from "./ui";
 import { State } from "./state";
 
+import { render_int_escape_time, render_binary } from "./render_modes";
+
 class MandelbrotManager {
   real_value = -0.5;
   imag_value = 0;
@@ -100,11 +102,8 @@ class MandelbrotManager {
   }
 
   draw_to_canvas(): void {
-    this.final_image.copy_from(this.image);
-    this.final_image.normalize_image();
-    this.final_image.gamma_correction(1.7);
-
-    const image_pixels = this.final_image.as_u8();
+    //const image_pixels = render_int_escape_time(this);
+    const image_pixels = render_binary(this);
 
     const canvas = getCanvas();
     const canvas_context = canvas.getContext('2d');

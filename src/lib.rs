@@ -8,6 +8,7 @@ mod config;
 mod image;
 mod mandelbrot;
 mod utils;
+mod point_data;
 
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
@@ -54,11 +55,14 @@ pub fn render_mandelbrot(config: &config::Config, image_data: &mut Image) {
     for x in 0..800 {
         for y in 0..600 {
             let c = mandelbrot::get_c(x, y, *config);
-            let v = mandelbrot::mandelbrot_point(c,
-                                                 config.escape_radius,
-                                                 config.iterations) as u8;
+            let point_value = mandelbrot::mandelbrot_point(c,
+                                                           config.escape_radius,
+                                                           config.iterations);
 
-            image_data.put_pixel(x as u64, y as u64, [v, v, v]);
+            let pixel_value = point_value.iterations as u8;
+
+            image_data.put_pixel(x as u32, y as u32, [pixel_value, pixel_value, pixel_value]);
+            image_data.put_point(x as u32, y as u32, point_value);
         }
     }
 
@@ -71,10 +75,13 @@ pub fn render_mandelbrot_line(line_number: u32, config: &config::Config, image_d
 
     for x in 0..config.width {
         let c = mandelbrot::get_c(x, y, *config);
-        let v = mandelbrot::mandelbrot_point(c,
-                                             config.escape_radius,
-                                             config.iterations) as u8;
+        let point_value = mandelbrot::mandelbrot_point(c,
+                                                       config.escape_radius,
+                                                       config.iterations);
 
-        image_data.put_pixel(x as u64, y as u64, [v, v, v]);
+        let pixel_value = point_value.iterations as u8;
+
+        image_data.put_pixel(x as u32, y as u32, [pixel_value, pixel_value, pixel_value]);
+        image_data.put_point(x as u32, y as u32, point_value);
     }
 }
