@@ -9,6 +9,8 @@ class MandelbrotManager {
   escape_radius = 2.0;
   iterations = 256;
 
+  step_size = 20;
+
   width: number;
   height: number;
 
@@ -70,10 +72,24 @@ class MandelbrotManager {
       return;
     }
 
-    const step_size = 25;
+    const t1 = performance.now();
 
-    for (let i = 0; i < step_size; i++) {
+    for (let i = 0; i < this.step_size; i++) {
       this.rust.render_mandelbrot_line(line_number + i, this.config, this.image);
+    }
+
+    const t_diff = performance.now() - t1;
+    const step_size = this.step_size
+
+    if (t_diff > 30 && this.step_size > 2) {
+      const step_per_ms = step_size / t_diff;
+      this.step_size = Math.ceil(step_per_ms * 20.0);
+      if (this.step_size < 2) this.step_size = 2;
+    }
+
+    if (t_diff < 20) {
+      const step_per_ms = step_size / t_diff;
+      this.step_size = Math.ceil(step_per_ms * 20.0);
     }
 
     this.draw_to_canvas();
