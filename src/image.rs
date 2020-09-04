@@ -112,6 +112,19 @@ impl Image {
 
         data
     }
+
+    pub fn copy_from(&mut self, other: &Image) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                let index = ((y * self.width + x) * 4) as usize;
+                let pixel = other.get_pixel(x, y);
+
+                for i in 0..4 {
+                    self.data[index + i] = pixel[i];
+                }
+            }
+        }
+    }
 }
 
 impl Image {
@@ -129,6 +142,17 @@ impl Image {
         for i in 0..3 {
             self.data[index + i] += color[i] as u64;
         }
+    }
+
+    pub fn get_pixel(&self, x:  u64, y: u64) -> [u64; 4] {
+        let index = ((y * self.width + x) * 4) as usize;
+        let mut pixel: [u64; 4] = [0, 0, 0, 0];
+
+        for i in 0..4 {
+            pixel[i] = self.data[index + i];
+        }
+
+        return pixel;
     }
 
     fn init_image(&mut self) {

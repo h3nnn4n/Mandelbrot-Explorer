@@ -15,6 +15,7 @@ class MandelbrotManager {
   rust: any;
   config: any;
   image: any;
+  final_image: any;
 
   state: State;
 
@@ -23,8 +24,10 @@ class MandelbrotManager {
     this.height = height;
     this.width = width;
 
-    this.config = this.rust.build_config(width, height);
+    this.rust.init_canvas(width, height);
     this.image = this.rust.init_image_data(width, height);
+    this.config = this.rust.build_config(width, height);
+    this.final_image = this.rust.init_image_data(width, height);
 
     this.state = new State();
 
@@ -51,7 +54,6 @@ class MandelbrotManager {
   }
 
   render_mandelbrot_line_by_line(): void {
-    console.log('render_mandelbrot_line_by_line');
     this.state.set_rendering();
     this.update_config();
     this.image.reset();
@@ -68,7 +70,7 @@ class MandelbrotManager {
       return;
     }
 
-    const step_size = 7;
+    const step_size = 25;
 
     for (let i = 0; i < step_size; i++) {
       this.rust.render_mandelbrot_line(line_number + i, this.config, this.image);
@@ -82,11 +84,11 @@ class MandelbrotManager {
   }
 
   draw_to_canvas(): void {
-    // TODO: make this work again
-    //this.image.normalize_image();
-    //this.image.gamma_correction(1.7);
+    this.final_image.copy_from(this.image);
+    this.final_image.normalize_image();
+    this.final_image.gamma_correction(1.7);
 
-    const image_pixels = this.image.as_u8();
+    const image_pixels = this.final_image.as_u8();
 
     const canvas = getCanvas();
     const canvas_context = canvas.getContext('2d');

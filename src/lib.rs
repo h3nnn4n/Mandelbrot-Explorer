@@ -24,12 +24,15 @@ cfg_if! {
 
 #[wasm_bindgen]
 pub fn init_image_data(width: u32, height: u32) -> Image {
+    Image::init(width.into(), height.into())
+}
+
+#[wasm_bindgen]
+pub fn init_canvas(width: u32, height: u32) {
     let canvas = utils::get_canvas();
 
     canvas.set_width(width.into());
     canvas.set_height(height.into());
-
-    Image::init(width.into(), height.into())
 }
 
 #[wasm_bindgen]
