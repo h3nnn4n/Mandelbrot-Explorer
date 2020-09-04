@@ -76,7 +76,7 @@
 
           <div class="btn-group">
             <button type="button" class="btn btn-info" id=selected_preset>Full Set</button>
-            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
@@ -85,6 +85,44 @@
               <a class="dropdown-item" href="#" data-value="fullset">Full Set</a>
               <a class="dropdown-item" href="#" data-value="seahorse">Seahorse</a>
             </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Render Mode</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Render Settings</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info" id=selected_preset>Render Mode</button>
+                  <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" data-value="int_escape_time">Integer Escape Time</a>
+                    <a class="dropdown-item" href="#" data-value="real_signal">Real Component Signal</a>
+                    <a class="dropdown-item" href="#" data-value="imag_signal">Imaginary Component Signal</a>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Apply</button>
           </div>
         </div>
       </div>
