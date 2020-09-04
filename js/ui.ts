@@ -50,6 +50,9 @@ function setPreset(preset_name: string): void {
 
   if (data === undefined) return;
 
+  const name = $(`[data-value="${preset_name}"`).text();
+  $('#selected_preset').text(name);
+
   setValue('real_value', data.real);
   setValue('imag_value', data.imag);
   setValue('zoom_level', data.zoom);

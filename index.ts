@@ -19,7 +19,7 @@ const init = () => {
 
   bindEvents(render_mandelbrot);
 
-  setPreset('fullset');
+  setPreset('none');
 
   render_mandelbrot();
 }

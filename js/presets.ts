@@ -13,6 +13,7 @@ class Preset {
 }
 
 const presets = new Map<string, Preset>();
+presets.set('none', new Preset(-0.5, 0.0, 2.0));
 presets.set('fullset', new Preset(-0.5, 0.0, 2.0));
 presets.set('seahorse', new Preset(-0.743030, 0.126433, 0.0165, 512));
 
