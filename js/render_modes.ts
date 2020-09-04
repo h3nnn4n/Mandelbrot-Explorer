@@ -9,9 +9,12 @@ function render_int_escape_time(context: MandelbrotManager): Uint8Array {
 }
 
 function render_binary(context: MandelbrotManager): Uint8Array {
-  const data = new Uint8Array(context.image.width * context.image.height * 4);
+  const start_line = context.last_rendered_line;
+  const end_line = start_line + context.last_step_size;
 
-  for (let y = 0; y < context.image.height; y++) {
+  for (let y = start_line; y < end_line; y++) {
+    if (y > context.height - 1) continue;
+
     for (let x = 0; x < context.image.width; x++) {
       const point = context.image.get_point(x, y);
       const index = (y * context.width + x) * 4;
@@ -21,15 +24,18 @@ function render_binary(context: MandelbrotManager): Uint8Array {
       if (point.real > 0 || point.iterations == 0)
         pixel_value = 0;
 
+      if (point.imaginary > 0 && point.iterations != 0)
+        pixel_value = 127;
+
       for (let i = 0; i < 3; i++) {
-        data[index + i] = pixel_value;
+        context.buffer[index + i] = pixel_value;
       }
 
-      data[index + 3] = 255;
+      context.buffer[index + 3] = 255;
     }
   }
 
-  return data;
+  return context.buffer;
 }
 
 export {

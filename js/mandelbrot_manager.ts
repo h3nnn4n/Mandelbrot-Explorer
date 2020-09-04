@@ -12,6 +12,8 @@ class MandelbrotManager {
   iterations = 256;
 
   step_size = 20;
+  last_step_size = 20;
+  last_rendered_line = 0;
 
   width: number;
   height: number;
@@ -20,6 +22,7 @@ class MandelbrotManager {
   config: any;
   image: any;
   final_image: any;
+  buffer: Uint8Array;
 
   state: State;
 
@@ -34,6 +37,8 @@ class MandelbrotManager {
     this.final_image = this.rust.init_image_data(width, height);
 
     this.state = new State();
+
+    this.buffer = new Uint8Array(width * height * 4);
 
     this.update_config();
   }
@@ -73,6 +78,9 @@ class MandelbrotManager {
     if (render_id != this.state.render_id) {
       return;
     }
+
+    this.last_rendered_line = line_number;
+    this.last_step_size = this.step_size
 
     const t1 = performance.now();
 
