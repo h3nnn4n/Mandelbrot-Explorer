@@ -80,19 +80,19 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item disabled" href="#" data-value="none">Pick a preset</a>
+              <a class="dropdown-item disabled" href="#" data-action="preset" data-value="none">Pick a preset</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#" data-value="fullset">Full Set</a>
-              <a class="dropdown-item" href="#" data-value="seahorse">Seahorse</a>
+              <a class="dropdown-item" href="#" data-action="preset" data-value="fullset">Full Set</a>
+              <a class="dropdown-item" href="#" data-action="preset" data-value="seahorse">Seahorse</a>
             </div>
           </div>
 
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Render Mode</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#render_mode_modal">Render Mode</button>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="render_mode_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -104,25 +104,31 @@
 
           <div class="modal-body">
             <form>
-              <div class="form-group">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-info" id=selected_preset>Render Mode</button>
-                  <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" data-value="int_escape_time">Integer Escape Time</a>
-                    <a class="dropdown-item" href="#" data-value="real_signal">Real Component Signal</a>
-                    <a class="dropdown-item" href="#" data-value="imag_signal">Imaginary Component Signal</a>
-                  </div>
+              <div class="form-group" data-target="render_mode_modal">
+
+                <p>
+                  Render Mode:
+                </p>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="int_escape_time">
+                  <label class="form-check-label" for="inlineRadio1">Integer Escape Mode</label>
                 </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="real_binary">
+                  <label class="form-check-label" for="inlineRadio2">Real Component Signal</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="imag_binary">
+                  <label class="form-check-label" for="inlineRadio3">Imaginary Component Signal</label>
+                </div>
+
               </div>
             </form>
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Apply</button>
+            <button type="button" data-action="render_mode" class="btn btn-primary">Apply</button>
           </div>
         </div>
       </div>

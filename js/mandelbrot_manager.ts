@@ -1,11 +1,11 @@
 import { readValue, getCanvas } from "./ui";
 import { State } from "./state";
-
-import { render_int_escape_time, render_binary } from "./render_modes";
+import { render_int_escape_time, render_binary_real, render_binary_imag } from "./render_modes";
+import { Image, Config } from "../pkg/mandelbrot_explorer";
+import { RenderConfig, RenderMode } from "./render_config";
 
 class MandelbrotManager {
-  real_value = -0.5;
-  imag_value = 0;
+  real_value = -0.5; imag_value = 0;
   zoom = 2;
 
   escape_radius = 2.0;
@@ -18,10 +18,13 @@ class MandelbrotManager {
   width: number;
   height: number;
 
+  render_config: RenderConfig;
+  current_render_config: RenderConfig;
+
   rust: any;
-  config: any;
-  image: any;
-  final_image: any;
+  config: Config;
+  image: Image;
+  final_image: Image;
   buffer: Uint8Array;
 
   state: State;
@@ -37,6 +40,8 @@ class MandelbrotManager {
     this.final_image = this.rust.init_image_data(width, height);
 
     this.state = new State();
+    this.render_config = new RenderConfig();
+    this.current_render_config = new RenderConfig();
 
     this.buffer = new Uint8Array(width * height * 4);
 
@@ -65,6 +70,7 @@ class MandelbrotManager {
   render_mandelbrot_line_by_line(): void {
     this.state.set_rendering();
     this.update_config();
+    this.render_config.render_mode = this.current_render_config.render_mode;
     this.image.reset();
     this.render_mandelbrot_line(0, this.state.render_id);
   }
@@ -110,8 +116,21 @@ class MandelbrotManager {
   }
 
   draw_to_canvas(): void {
-    //const image_pixels = render_int_escape_time(this);
-    const image_pixels = render_binary(this);
+    let image_pixels;
+
+    switch (this.render_config.render_mode) {
+      case RenderMode.INT_ESCAPE_TIME:
+        image_pixels = render_int_escape_time(this);
+        break;
+
+      case RenderMode.REAL_BINARY:
+        image_pixels = render_binary_real(this);
+        break;
+
+      case RenderMode.IMAG_BINARY:
+        image_pixels = render_binary_imag(this);
+        break;
+    }
 
     const canvas = getCanvas();
     const canvas_context = canvas.getContext('2d');

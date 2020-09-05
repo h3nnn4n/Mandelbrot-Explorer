@@ -2,11 +2,13 @@ import * as $ from 'jquery';
 import * as AColorPicker from 'a-color-picker';
 
 import { getPreset } from "./presets";
+import { MandelbrotManager } from './mandelbrot_manager';
 
-function bindEvents(render_callback: any): void {
-    $('#render').click(render_callback);
+function bindEvents(mandelbrot_manager: MandelbrotManager): void {
+    $('#render').click(mandelbrot_manager.render_mandelbrot_line_by_line);
     $('#download').click(downloadCanvas);
-    $('[data-value]').click(handlePresetEvent);
+    $('[data-value][data-action="preset"').click(handlePresetEvent);
+    $('[data-action="render_mode"').click(() => handleRenderModeEvent(mandelbrot_manager));
 }
 
 function downloadCanvas() {
@@ -57,6 +59,22 @@ function setPreset(preset_name: string): void {
   setValue('imag_value', data.imag);
   setValue('zoom_level', data.zoom);
   setValue('iterations_value', data.iterations);
+}
+
+function handleRenderModeEvent(mandelbrot_manager: MandelbrotManager): void {
+  // Hack to get around type checking since I am dumb and do not know how to
+  // tell typescript where this function comes from
+  const modal: any = $('#render_mode_modal');
+  const modal_form = $('[data-target="render_mode_modal"]');
+  const selected_mode_name = modal_form.find('input[name="inlineRadioOptions"]:checked').val();
+
+  if (selected_mode_name !== undefined) {
+    if (typeof selected_mode_name === 'string') {
+      mandelbrot_manager.current_render_config.set_mode(selected_mode_name);
+    }
+  }
+
+  modal.modal('hide');
 }
 
 export {

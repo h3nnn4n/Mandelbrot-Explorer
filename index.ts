@@ -10,18 +10,14 @@ const height = 600;
 let Rust: any;
 let mandelbrot_manager: any;
 
-const render_mandelbrot = (): void => {
-  mandelbrot_manager.render_mandelbrot_line_by_line();
-}
-
 const init = () => {
   mandelbrot_manager = new MandelbrotManager(Rust, width, height);
 
-  bindEvents(render_mandelbrot);
+  bindEvents(mandelbrot_manager);
 
   setPreset('none');
 
-  render_mandelbrot();
+  mandelbrot_manager.render_mandelbrot_line_by_line();
 }
 
 export const load = (): void => {
