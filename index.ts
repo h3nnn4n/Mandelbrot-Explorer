@@ -8,7 +8,7 @@ const width = 800;
 const height = 600;
 
 let Rust: any;
-let mandelbrot_manager: any;
+let mandelbrot_manager: MandelbrotManager;
 
 const init = () => {
   mandelbrot_manager = new MandelbrotManager(Rust, width, height);
