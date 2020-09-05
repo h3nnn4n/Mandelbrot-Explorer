@@ -85,3 +85,21 @@ pub fn render_mandelbrot_line(line_number: u32, config: &config::Config, image_d
         image_data.put_point(x as u32, y as u32, point_value);
     }
 }
+
+#[wasm_bindgen]
+pub fn render_mandelbrot_line_aa(line_number: u32, config: &config::Config, image_data: &mut Image) {
+    let y = line_number;
+
+    for x in 0..config.width {
+        let c_base = mandelbrot::get_c(x, y, *config);
+        let c = config.get_aa_offset(c_base);
+        let point_value = mandelbrot::mandelbrot_point(c,
+                                                       config.escape_radius,
+                                                       config.iterations);
+
+        let pixel_value = point_value.iterations as u8;
+
+        image_data.put_pixel(x as u32, y as u32, [pixel_value, pixel_value, pixel_value]);
+        image_data.put_point(x as u32, y as u32, point_value);
+    }
+}

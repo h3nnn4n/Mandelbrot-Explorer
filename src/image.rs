@@ -132,7 +132,20 @@ impl Image {
     pub fn get_point(&self, x: u32, y: u32) -> PointData {
         let index = (y * self.width + x) as usize;
 
-        return self.point_data[index];
+        return self.point_data[index].make_a_copy();
+    }
+
+    pub fn aa_int_escape_time_merge(&mut self, other: &Image) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                let index = ((y * self.width + x) * 4) as usize;
+                let pixel = other.get_pixel(x, y);
+
+                for i in 0..4 {
+                    self.data[index + i] += pixel[i];
+                }
+            }
+        }
     }
 }
 

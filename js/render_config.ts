@@ -6,9 +6,11 @@ enum RenderMode {
 
 class RenderConfig {
   render_mode: RenderMode;
+  aa_samples = 0;
 
   constructor() {
     this.render_mode = RenderMode.INT_ESCAPE_TIME;
+    //this.render_mode = RenderMode.REAL_BINARY;
   }
 
   set_mode(mode_name: string): void {

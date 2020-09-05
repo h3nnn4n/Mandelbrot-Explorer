@@ -24,6 +24,7 @@ class MandelbrotManager {
   rust: any;
   config: Config;
   image: Image;
+  image_aa: Image[];
   final_image: Image;
   buffer: Uint8Array;
 
@@ -36,12 +37,16 @@ class MandelbrotManager {
 
     this.rust.init_canvas(width, height);
     this.image = this.rust.init_image_data(width, height);
+    this.image_aa = [];
     this.config = this.rust.build_config(width, height);
     this.final_image = this.rust.init_image_data(width, height);
+
+    this.config.set_aa(0);
 
     this.state = new State();
     this.render_config = new RenderConfig();
     this.current_render_config = new RenderConfig();
+    this.render_config.aa_samples = 0;
 
     this.buffer = new Uint8Array(width * height * 4);
 
@@ -71,7 +76,21 @@ class MandelbrotManager {
     this.state.set_rendering();
     this.update_config();
     this.render_config.render_mode = this.current_render_config.render_mode;
+
+    for (let i = 0; i < this.render_config.aa_samples; i++) {
+      if (i < this.image_aa.length) continue;
+
+      this.image_aa.push(this.rust.init_image_data(this.width, this.height));
+    }
+
+    console.assert(this.image_aa.length == this.render_config.aa_samples);
+    console.assert(this.image_aa.length == this.config.aa_samples);
+
     this.image.reset();
+    for (let i = 0; i < this.render_config.aa_samples; i++) {
+      this.image_aa[i].reset();
+    }
+
     this.render_mandelbrot_line(0, this.state.render_id);
   }
 
@@ -92,6 +111,12 @@ class MandelbrotManager {
 
     for (let i = 0; i < this.step_size; i++) {
       this.rust.render_mandelbrot_line(line_number + i, this.config, this.image);
+    }
+
+    for (let aa_index = 0; aa_index < this.render_config.aa_samples; aa_index++) {
+      for (let i = 0; i < this.step_size; i++) {
+        this.rust.render_mandelbrot_line_aa(line_number + i, this.config, this.image_aa[aa_index]);
+      }
     }
 
     const t_diff = performance.now() - t1;
