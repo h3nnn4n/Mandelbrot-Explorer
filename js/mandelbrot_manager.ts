@@ -81,6 +81,7 @@ class MandelbrotManager {
     this.update_config();
     this.render_config.render_mode = this.current_render_config.render_mode;
     this.render_config.aa_samples = this.current_render_config.aa_samples;
+    this.config.set_aa(this.render_config.aa_samples);
 
     for (let i = 0; i < this.render_config.aa_samples; i++) {
       if (i < this.image_aa.length) continue;
