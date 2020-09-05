@@ -88,8 +88,8 @@ class MandelbrotManager {
       this.image_aa.push(this.rust.init_image_data(this.width, this.height));
     }
 
-    console.assert(this.image_aa.length == this.render_config.aa_samples);
-    console.assert(this.image_aa.length == this.config.aa_samples);
+    console.assert(this.image_aa.length >= this.render_config.aa_samples);
+    console.assert(this.image_aa.length >= this.config.aa_samples);
 
     this.image.reset();
     for (let i = 0; i < this.render_config.aa_samples; i++) {
