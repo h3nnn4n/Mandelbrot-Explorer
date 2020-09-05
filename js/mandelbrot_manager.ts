@@ -41,16 +41,20 @@ class MandelbrotManager {
     this.config = this.rust.build_config(width, height);
     this.final_image = this.rust.init_image_data(width, height);
 
-    this.config.set_aa(0);
-
     this.state = new State();
     this.render_config = new RenderConfig();
     this.current_render_config = new RenderConfig();
-    this.render_config.aa_samples = 0;
+
+    this.set_aa(0);
 
     this.buffer = new Uint8Array(width * height * 4);
 
     this.update_config();
+  }
+
+  set_aa(n_samples: number): void {
+    this.config.set_aa(n_samples);
+    this.current_render_config.aa_samples = n_samples;
   }
 
   update_config(): void {
@@ -76,6 +80,7 @@ class MandelbrotManager {
     this.state.set_rendering();
     this.update_config();
     this.render_config.render_mode = this.current_render_config.render_mode;
+    this.render_config.aa_samples = this.current_render_config.aa_samples;
 
     for (let i = 0; i < this.render_config.aa_samples; i++) {
       if (i < this.image_aa.length) continue;

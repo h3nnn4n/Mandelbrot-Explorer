@@ -74,6 +74,22 @@ function handleRenderModeEvent(mandelbrot_manager: MandelbrotManager): void {
     }
   }
 
+  const n_aa_samples = $('#antialiasing_factor');
+
+  if (n_aa_samples !== undefined) {
+    const value = n_aa_samples.val();
+
+    if (value !== undefined) {
+      if (typeof value == "number") {
+        mandelbrot_manager.set_aa(value);
+      } else if (typeof value == "string") {
+        if (value.length > 0) {
+          mandelbrot_manager.set_aa(parseInt(value));
+        }
+      }
+    }
+  }
+
   modal.modal('hide');
 }
 
