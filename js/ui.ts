@@ -5,7 +5,7 @@ import { getPreset } from "./presets";
 import { MandelbrotManager } from './mandelbrot_manager';
 
 function bindEvents(mandelbrot_manager: MandelbrotManager): void {
-    $('#render').click(mandelbrot_manager.render_mandelbrot_line_by_line);
+    $('#render').click(() => mandelbrot_manager.render_mandelbrot_line_by_line());
     $('#download').click(downloadCanvas);
     $('[data-value][data-action="preset"').click(handlePresetEvent);
     $('[data-action="render_mode"').click(() => handleRenderModeEvent(mandelbrot_manager));
